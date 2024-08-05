@@ -53,10 +53,7 @@ class AuthController extends Controller
             'token_type' => 'Bearer',
         ]);
     }
-    public function userProfile(Request $request)
-    {
-        return response()->json(['user' => $request->user()]);
-    }
+
     public function logout(Request $request)
     {
         $request->user()->tokens()->delete();

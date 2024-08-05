@@ -2,10 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 
 Route::post('register', [AuthController::class, 'register']);
-Route::post('login', [AuthController::class, 'login']);
-Route::middleware('auth:sanctum')->get('user',[AuthController::class,'userProfile']);
-Route::middleware('auth:sanctum')->post('logout', [AuthController::class, 'logout']);
-
-
+Route::get('login', [AuthController::class, 'login']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('users/{user}', [UserController::class, 'userProfile']);
+    Route::put('users/{user}', [UserController::class, 'update']);
+    Route::post('users/{user}/follow', [UserController::class, 'follow']);
+    Route::post('users/{user}/unfollow', [UserController::class, 'unfollow']);
+    Route::get('users/{user}/followers', [UserController::class, 'followers']);
+    Route::get('users/{user}/following', [UserController::class, 'following']);
+    Route::post('logout', [AuthController::class, 'logout']);
+});
